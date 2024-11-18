@@ -1,0 +1,330 @@
+@charset "UTF-8";
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "./global";
+
+.---dialog-cover {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2.5rem);
+  background-color: #212121c0;
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 250ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  z-index: 98;
+
+  &.-visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.---dialog {
+  @include flex(column, stretch, flex-start);
+  top: calc(50% + 0.5rem);
+  left: 50%;
+  min-width: 20rem;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 99;
+  pointer-events: none;
+  transition-duration: 125ms;
+  transition-property: top, opacity;
+  transition-timing-function: ease;
+
+  &.-visible {
+    top: 50%;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  > ._title {
+    background-color: #212121;
+    color: #ffffff;
+    padding: 0.425rem 0.875rem;
+  }
+
+  > ._content {
+    background-color: #ffffff;
+    color: #212121;
+    padding: 0.75rem 0.875rem;
+    text-align: justify;
+  }
+
+  > ._button-container {
+    background-color: #ffffff;
+    color: #212121;
+    border-top: 0.0625rem solid #f0f0f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    > ._button {
+      $background_color : #ffffff;
+      background-color: $background_color;
+      cursor: pointer;
+      padding: 0.375rem;
+      font-size: 0.8rem;
+      user-select: none;
+      + ._button {
+        border-left: 0.0625rem solid #f0f0f0;
+      }
+
+      &:hover {
+        background-color: darken($background_color, 5%);
+      }
+
+      &:active {
+        background-color: darken($background_color, 10%);
+      }
+    }
+  }
+}
+
+.---loading {
+  @include flex(column, center, center, 1rem);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2.5rem);
+  background-color: #212121c0;
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 100;
+
+  transition-duration: 250ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+
+  &.-visible {
+    opacity: 1;
+    pointer-events: all;
+
+    > ._icon {
+      top: 0;
+      opacity: 1;
+      transition-delay: 125ms;
+    }
+
+    > ._text {
+      top: 0;
+      opacity: 1;
+      transition-delay: 500ms;
+    }
+  }
+
+
+
+  > ._icon {
+    @keyframes anim {
+      from {
+        transform: rotateZ(0deg);
+      }
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+    width: 3rem;
+    animation-name: anim;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    opacity: 0;
+    position: relative;
+    transition-duration: 250ms;
+    transition-property: top, opacity;
+    transition-timing-function: ease;
+  }
+
+  > ._text {
+    top: 0.5rem;
+    font-size: 1.25rem;
+    opacity: 0;
+    position: relative;
+    transition-duration: 250ms;
+    transition-property: top, opacity;
+    transition-timing-function: ease;
+  }
+}
+
+a[href] {
+  color: inherit;
+}
+
+a:link, a:visited {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+body {
+  @include minmaxWidth(100vw);
+  @include minmaxHeight(100vh);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  background-color: #222324;
+  margin : 0;
+  color: #d4d5d6;
+  overflow: hidden;
+  cursor: default;
+}
+a:link, a:visited {
+  color: inherit;
+}
+
+
+button, input, select, textarea {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font: inherit;
+  margin-block: 0;
+  margin-inline: 0;
+}
+
+ol, ul {
+  list-style-type: none;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.--obj-label {
+  @include flex(column, stretch, flex-start, 0.25rem);
+
+  &.-invalid {
+    $color: #e74c3c;
+
+    > ._text {
+      color: $color;
+    }
+    > ._field:not(:disabled) {
+      border-color: $color !important;
+    }
+    > ._warning {
+      color: $color;
+      display: block;
+    }
+  }
+
+  > ._text {
+    font-size: 0.8rem;
+  }
+
+  > ._warning {
+    display: none;
+    font-size: 0.8rem;
+  }
+}
+
+.--obj-field {
+  padding: 0.25rem 0.375rem;
+  transition-duration: 250ms;
+  transition-property: border-color;
+  transition-timing-function: ease;
+
+  &.-light {
+    $border_color : #eeeeee;
+    background-color: #ffffff;
+    border: 0.0625rem solid $border_color;
+    color: #212121;
+
+    &:hover {
+      border-color: darken($border_color, 10%);
+    }
+
+    &:focus {
+      border-color: #01cd3d;
+    }
+  }
+}
+
+.--obj-button {
+  cursor: pointer;
+  padding: 0.425rem 0.5rem;
+  user-select: none;
+  transition-duration: 250ms;
+  transition-property: background-color;
+  transition-timing-function: ease;
+
+  &.-color-primary {
+    $background_color : #01cd3d;
+    background-color: $background_color;
+    color: #ffffff;
+
+    &:hover {
+      background-color: darken($background_color, 5%);
+    }
+
+    &:active {
+      background-color: darken($background_color, 10%);
+    }
+  }
+
+  &.-color-light-gray {
+    $background_color : #a0a0a0;
+    background-color: $background_color;
+    color: #ffffff;
+
+    &:hover {
+      background-color: darken($background_color, 5%);
+    }
+
+    &:active {
+      background-color: darken($background_color, 10%);
+    }
+  }
+}
+
+.--obj-check-label {
+  @include flex(row, center, flex-start, 0.25rem);
+  cursor: pointer;
+  user-select: none;
+
+  &.-light {
+    > ._box {
+      background-color: #ffffff;
+    }
+  }
+
+  > ._input {
+    display: none;
+  }
+
+  > ._input:checked + ._box {
+    background-color: #01d345;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGUlEQVR4nO3ZzYuNURzA8R+jEZOXZDbeNpqVZiWUDcpGiQ0lKykLpWZnIQspNWUhG9kR2Shlo8jCQpSFlMLK28JLQkKUt4+e5hnN4s7MfWaex8zccz7/wPl9z+12zzk3IsuyLMuyLMuyrIPgGAYj4fhhgynHp7UJWsensQnGji+ciYTjb6M7Eo1/jt5INP4L+iPR+D/YHYnGF45GwvFXMCsSjX+Ankg0/i1WRqLxP7ApEo0vHIiE409FwvE3MafJQfbhMpY0tsjE459haZODrMHXcrGX2NzYYtXjPxfzNTlIDx61OF6ebupmVSH+N7Y3McM/ODfGAA/rvmRUiC8crnPtlnBinCG+YaCOI2fF+IuTXa/KYCfbGOgGlv2n+PuYX2/lGIpPF2fbGOwddjQc/xor4n/DbFxqc8gL7V5EKsZ/x4bma0eBrvIs0I4nWFtjfGF/TDV041qbA/8sI7tqiJ8+z9mYh1sVhr+L1ZOIv95qE6cUFuBehYhP2DuB+MdYFNMRFpc/SU35iL6YztDb4qhch1/YFjMBluNpzRswEDMJVuFFTfHnYyZCH95MMv4O5sZMhX68n2D8q8ncJ6YNrC8fKqoobpXrolNg44hXpPEUDyx7otNga3mBGc/x6FTYWf5ZMZqrxU0zOhl2lQebVsfchZECQ8/qxSPmsA8jL0hJwKEyvvhKbIkU4QgOTvUcWZZlWZZlWQz5CwWJiRXjv3DMAAAAAElFTkSuQmCC");
+  }
+
+  > ._box {
+    @include minmaxSize(1rem);
+    border: 0.125rem solid #01d345;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 87.5%;
+  }
+
+  > ._text {
+    text-align: justify;
+  }
+}

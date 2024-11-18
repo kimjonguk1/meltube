@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Melon</title>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/index.unsigned.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/index.unsigned.css'}">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+</head>
+<body>
+<div class="cover" id="cover"></div>
+    <main id="main" class="-spring">
+        <div class="content">
+            <img alt="meltube" class="logo" th:src="@{'/assets/images/_logo.png'}">
+            <form novalidate class="login-form" id="loginForm">
+                <h2 class="title">로그인</h2>
+                <label  class="--obj-label">
+                    <span class="_text">이메일</span>
+                    <input type="email" autofocus autocomplete="email" class="_field --obj-field -light" maxlength="50" minlength="8" name="email" spellcheck="false">
+                </label>
+                <label  class="--obj-label">
+                    <span class="_text">비밀번호</span>
+                    <input type="password" autofocus autocomplete="password" class="_field --obj-field -light" maxlength="50" minlength="6" name="password" spellcheck="false">
+                </label>
+                <button class="--obj-button -color-primary">로그인</button>
+                <ul class="menu">
+                    <li class="item">
+                        <span class="text">아직 계정이 없으신가요?</span>
+                        <a href="#" class="link" rel="register">회원가입</a>
+                    </li>
+                    <li class="item">
+                        <span class="text">계정 정보를 잊으셨나요?</span>
+                        <a href="#" class="link">계정찾기</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </main>
+    <form novalidate class="register-form" id="registerForm">
+        <h2 class="title">회원가입</h2>
+        <label class="--obj-label" data-id="email">
+            <span class="_text">이메일</span>
+            <input type="email" autofocus autocomplete="email" class="_field --obj-field -light" maxlength="50" minlength="8" name="email" spellcheck="false">
+            <span class="_warning">올바른 이메일을 입력해 주세요</span>
+        </label>
+        <label class="--obj-label" data-id="password">
+            <span class="_text">비밀번호</span>
+            <input type="password" autofocus autocomplete="password" class="_field --obj-field -light" maxlength="50" minlength="6" name="password" spellcheck="false">
+            <input type="password" autofocus autocomplete="password" class="_field --obj-field -light" maxlength="50" minlength="6" name="passwordCheck" spellcheck="false" placeholder="비밀번호 재입력">
+            <span class="_warning">올바른 비밀번호를 입력해 주세요</span>
+        </label>
+        <label class="--obj-label" data-id="nickname">
+            <span class="_text">닉네임</span>
+            <input type="text" autocomplete="off" class="--obj-field -light" maxlength="10" minlength="2" name="nickname" spellcheck="false">
+            <span class="_warning">올바른 닉네임을 입력해 주세요</span>
+        </label>
+        <label class="--obj-label" data-id="contact">
+            <span class="_text">연락처</span>
+            <input type="tel" autocomplete="off" class="--obj-field -light" maxlength="12" minlength="10" name="contact" spellcheck="false" placeholder="'-' 없이 입력">
+            <span class="_warning">올바른 연락처를 입력해 주세요</span>
+        </label>
+        <label class="--obj-check-label -light">
+            <input class="_input" name="agree" type="checkbox">
+            <span class="_box"></span>
+            <span class="_text">
+                <a href="#">서비스 이용약관</a> 및
+                <a href="#">개인정보 처리방치</a>을 읽어보았으며 이해하였고 동의합니다
+            </span>
+        </label>
+        <button class="--obj-button -color-primary" type="submit">회원가입</button>
+        <button class="--obj-button -color-light-gray" type="button" name="cancel">취소</button>
+    </form>
+</body>
+</html>
