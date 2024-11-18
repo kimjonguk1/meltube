@@ -3,28 +3,44 @@ package dev.jwkim.meltube.services;
 import dev.jwkim.meltube.entities.EmailTokenEntity;
 import dev.jwkim.meltube.entities.UserEntity;
 import dev.jwkim.meltube.exceptions.TransactionalException;
+import dev.jwkim.meltube.mappers.EmailTokenMapper;
 import dev.jwkim.meltube.mappers.UserMapper;
 import dev.jwkim.meltube.results.CommonResult;
 import dev.jwkim.meltube.results.Result;
 import dev.jwkim.meltube.results.user.RegisterResult;
+import dev.jwkim.meltube.results.user.ValidateEmailTokenResult;
 import dev.jwkim.meltube.utils.CryptoUtils;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.LocalDateTime;
 
 @Service
 public class UserService {
     private final UserMapper userMapper;
+    private final EmailTokenMapper emailTokenMapper;
+    private final JavaMailSender mailSender; // mail send
+    private final SpringTemplateEngine templateEngine; //html -> text
 
     @Autowired
-    public UserService(UserMapper userMapper) {
+    public UserService(UserMapper userMapper, EmailTokenMapper emailTokenMapper, JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
         this.userMapper = userMapper;
+        this.emailTokenMapper = emailTokenMapper;
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
     }
 
-    public Result register(UserEntity user) {
-
+    @Transactional // 하나라도 실패하면 전의 모든 데이터도 실패처리
+    public Result register(HttpServletRequest request, UserEntity user) throws MessagingException {
         if(user == null ||
         user.getEmail() == null || user.getEmail().length() < 8 || user.getEmail().length() > 50
         || user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 50
@@ -58,10 +74,52 @@ public class UserService {
         emailToken.setCreatedAt(LocalDateTime.now());
         emailToken.setExpiresAt(LocalDateTime.now().plusHours(24));
         emailToken.setUsed(false);
-        // TODO emailToken INSERT 하기
-        // TODO @Transactional 걸고 설명하기
-        // TODO 이메일 보내기
+
+        if(this.emailTokenMapper.insertEmailToken(emailToken) == 0) {
+            throw new TransactionalException();
+        }
+        String validationLink = String.format("%s://%s:%d/user/validate-email-token?userEmail=%s&key=%s",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort(),
+                emailToken.getUserEmail(),
+                emailToken.getKey());
+        Context context = new Context();
+        context.setVariable("validationLink", validationLink);
+        String mailText = this.templateEngine.process("email/register", context); // "<!DOCTYPE ... "
+        MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setFrom("rlawhddnr4666@gmail.com");
+        mimeMessageHelper.setTo(emailToken.getUserEmail());
+        mimeMessageHelper.setSubject("[멜튜브]회원가입 인증 링크");
+        mimeMessageHelper.setText(mailText, true);
+        this.mailSender.send(mimeMessage);
         return CommonResult.SUCCESS;
 //        return this.userMapper.insertUser(user) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public Result validateEmailToken(EmailTokenEntity emailToken) {
+        if(emailToken == null ||
+            emailToken.getUserEmail() == null || emailToken.getUserEmail().length() < 8 || emailToken.getUserEmail().length() > 50 ||
+            emailToken.getKey() == null || emailToken.getKey().length() != 128) {
+            return CommonResult.FAILURE;
+        }
+        EmailTokenEntity dbEmailToken = this.emailTokenMapper.selectEmailTokenByUserEmailAndKey(emailToken.getUserEmail(), emailToken.getKey());
+        if(dbEmailToken == null || dbEmailToken.isUsed()) { // db에 존재하지 않거나 이미 사용된 토큰이면
+            return CommonResult.FAILURE;
+        }
+        if(dbEmailToken.getExpiresAt().isBefore(LocalDateTime.now())) { // 이메일 토큰의 만료 일시 가 현재 일시 보다 과거 면
+            return ValidateEmailTokenResult.FAILURE_EXPIRED;
+        }
+        dbEmailToken.setUsed(true); // 토큰을 사용된 것으로 처리함 (인증은 한 번만 가능함으로)
+        if(this.emailTokenMapper.updateEmailToken(dbEmailToken)==0) {
+            throw new TransactionalException();
+        }
+        UserEntity user = this.userMapper.selectUserByEmail(emailToken.getUserEmail()); // 사용자 가져오기
+        user.setVerified(true);
+        if(this.userMapper.updateUser(user) == 0) {
+            throw new TransactionalException();
+        }
+        return CommonResult.SUCCESS;
     }
 }

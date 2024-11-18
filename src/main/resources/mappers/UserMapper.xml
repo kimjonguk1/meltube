@@ -7,6 +7,20 @@
         INSERT INTO meltube.users (`email`, `password`, `nickname`, `contact`, `created_at`, `updated_at`, `deleted_at`, `is_admin`, `is_suspended`, `is_verified`)
         VALUES (#{email}, #{password}, #{nickname}, #{contact}, #{createdAt}, #{updatedAt}, #{deletedAt}, #{isAdmin}, #{isSuspended}, #{isVerified})
     </insert>
+    <update id="updateUser" parameterType="dev.jwkim.meltube.entities.UserEntity">
+        UPDATE meltube.users
+        SET `password` = #{password},
+            `nickname` = #{nickname},
+            `contact` = #{contact},
+            `created_at` = #{createdAt},
+            `updated_at` = #{updatedAt},
+            `deleted_at` = #{deletedAt},
+            `is_admin` = #{isAdmin},
+            `is_suspended` = #{isSuspended},
+            `is_verified` = #{isVerified}
+        WHERE email = #{email}
+        LIMIT 1
+    </update>
     <select id="selectUserByEmail" resultType="dev.jwkim.meltube.entities.UserEntity">
         SELECT email AS 'email',
                password AS 'password',

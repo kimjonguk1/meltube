@@ -13,4 +13,6 @@ public interface UserMapper {
     UserEntity selectUserByContact(@Param("contact") String contact);
 
     UserEntity selectUserByNickname(@Param("nickname") String nickname);
+
+    int updateUser(UserEntity user);
 }

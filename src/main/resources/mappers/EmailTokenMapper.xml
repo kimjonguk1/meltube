@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.jwkim.meltube.mappers.EmailTokenMapper">
+
+    <insert id="insertEmailToken"
+            parameterType="dev.jwkim.meltube.entities.EmailTokenEntity">
+        INSERT INTO `meltube`.email_tokens (`user_email`, `key`, `created_at`, `expires_at`, `is_used`)
+        VALUES (#{userEmail},#{key},#{createdAt},#{expiresAt},#{isUsed})
+    </insert>
+
+    <update id="updateEmailToken" parameterType="dev.jwkim.meltube.entities.EmailTokenEntity">
+        UPDATE meltube.email_tokens
+        SET `created_at` = #{createdAt},
+            `expires_at` = #{expiresAt},
+            `is_used` = #{isUsed}
+        WHERE user_email = #{userEmail}
+        AND `key` = #{key}
+        LIMIT 1
+
+    </update>
+
+    <select id="selectEmailTokenByUserEmailAndKey" resultType="dev.jwkim.meltube.entities.EmailTokenEntity">
+        SELECT `user_email` AS 'userEmail',
+               `key` AS 'key',
+               `created_at` AS 'createdAt',
+               `expires_at` AS 'expiresAt',
+               `is_used` AS 'isUsed'
+        FROM meltube.email_tokens
+        WHERE user_email = #{userEmail}
+          AND `key` = #{key}
+        LIMIT 1
+    </select>
+
+</mapper>
