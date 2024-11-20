@@ -19,13 +19,20 @@
             <img alt="meltube" class="logo" th:src="@{'/assets/images/_logo.png'}">
             <form novalidate class="login-form" id="loginForm">
                 <h2 class="title">로그인</h2>
-                <label  class="--obj-label">
+                <label  class="--obj-label" data-id="email">
                     <span class="_text">이메일</span>
                     <input type="email" autofocus autocomplete="email" class="_field --obj-field -light" maxlength="50" minlength="8" name="email" spellcheck="false">
+                    <span class="_warning">올바른 이메일을 입력해 주세요</span>
                 </label>
-                <label  class="--obj-label">
+                <label  class="--obj-label" data-id="password">
                     <span class="_text">비밀번호</span>
                     <input type="password" autofocus autocomplete="password" class="_field --obj-field -light" maxlength="50" minlength="6" name="password" spellcheck="false">
+                    <span class="_warning">올바른 비밀번호를 입력해 주세요</span>
+                </label>
+                <label  class="--obj-check-label -light">
+                    <input type="checkbox" class="_input" name="rememberEmail">
+                    <span class="_box"></span>
+                    <span class="_text">이메일을 기억합니다</span>
                 </label>
                 <button class="--obj-button -color-primary">로그인</button>
                 <ul class="menu">
@@ -35,7 +42,7 @@
                     </li>
                     <li class="item">
                         <span class="text">계정 정보를 잊으셨나요?</span>
-                        <a href="#" class="link">계정찾기</a>
+                        <a href="#" class="link" rel="search">계정찾기</a>
                     </li>
                 </ul>
             </form>
@@ -75,5 +82,40 @@
         <button class="--obj-button -color-primary" type="submit">회원가입</button>
         <button class="--obj-button -color-light-gray" type="button" name="cancel">취소</button>
     </form>
+<form novalidate class="recover-form" id="recoverForm">
+    <h2 class="title">계정 찾기</h2>
+    <div class="mode-container">
+        <label class="label">
+            <input class="input" name="mode" type="radio" value="email">
+            <span class="title">이메일 찾기</span>
+            <span class="text">회원가입시 입력한 연락처로 이메일을 찾습니다.</span>
+        </label>
+        <label class="label">
+            <input class="input" name="mode" type="radio" value="password">
+            <span class="title">비밀번호 재설정</span>
+            <span class="text">이메일로 비밀번호를 재설정 할 수 있는 링크를 전송합니다</span>
+        </label>
+    </div>
+    <div class="content email">
+        <span class="text">이메일을 찾기 위해 아래 정보를 입력해 주세요</span>
+        <label class="--obj-label" data-id="contact">
+            <span class="_text">연락처</span>
+            <input type="tel" autocomplete="off" class="_field --obj-field -light" maxlength="12" minlength="10" name="contact" placeholder="'-' 없이 입력" spellcheck="false">
+            <span class="_warning">올바른 연락처를 입력해 주세요</span>
+        </label>
+
+    </div>
+    <div class="content password">
+        <span class="text">비밀번호를 재설정하기 위해 아래 정보를 입력해 주세요</span>
+        <label class="--obj-label" data-id="email">
+            <span class="_text">이메일</span>
+            <input type="email" autocomplete="email" autofocus class="_field --obj-field -light" maxlength="50" minlength="8" name="email"  spellcheck="false">
+            <span class="_warning">올바른 이메일을 입력해 주세요</span>
+        </label>
+
+    </div>
+    <button class="--obj-button -color-primary" type="submit">계정 찾기</button>
+    <button class="--obj-button -color-light-gray" type="button" name="cancel">취소</button>
+</form>
 </body>
 </html>

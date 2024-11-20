@@ -95,7 +95,8 @@ body {
   }
 }
 
-#registerForm {
+#registerForm,
+#recoverForm{
   @include flex(column, stretch, flex-start, 0.375rem);
   top: 50%;
   left: 50%;
@@ -130,5 +131,58 @@ body {
 
   > button:first-of-type {
     margin-top: 0.75rem;
+  }
+}
+
+#recoverForm {
+  > .mode-container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    &:has(input[type="radio"][value="email"]:checked) ~ .content.email,
+    &:has(input[type="radio"][value="password"]:checked) ~ .content.password {
+      display: flex;
+    }
+
+    > .label {
+      $border_color : #e0e0e0;
+      @include flex(column, flex-start, flex-start, 0.25rem);
+      border: 0.0625rem solid $border_color;
+      padding: 1rem;
+      user-select: none;
+
+      &:hover {
+        border-color: darken($border_color, 10%);
+      }
+
+      &:active {
+        border-color: darken($border_color, 20%);
+      }
+
+      &:has(input[type="radio"]:checked) {
+        border-color: #01d345;
+      }
+
+      > .input {
+        display: none;
+      }
+
+      > .title {
+        font-size: 1rem;
+      }
+
+      > .text {
+        font-size: 0.8rem;
+        text-align: justify;
+      }
+    }
+  }
+
+  > .content {
+    @include flex(column, stretch, flex-start, 0.375rem);
+    font-size: 0.8rem;
+    display: none;
   }
 }
