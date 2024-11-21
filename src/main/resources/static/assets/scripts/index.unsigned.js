@@ -88,7 +88,7 @@ const $recoverForm = document.getElementById('recoverForm');
         $registerForm['email'].focus();
     }
 
-    $menu.querySelector(':scope > .item > [rel="search"]').onclick = (e) => {
+    $menu.querySelector(':scope > .item > [rel="recover"]').onclick = (e) => {
         e.preventDefault();
         $cover.onclick = () => {
             $cover.hide();

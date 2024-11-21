@@ -257,6 +257,21 @@ ol, ul {
       border-color: #01cd3d;
     }
   }
+
+  &.-dark {
+    $border_color : #424242;
+    background-color: #222324;
+    border: 0.0625rem solid $border_color;
+    color: #ffffff;
+
+    &:hover {
+      border-color: lighten($border_color, 10%);
+    }
+
+    &:focus {
+      border-color: #01cd3d;
+    }
+  }
 }
 
 .--obj-button {

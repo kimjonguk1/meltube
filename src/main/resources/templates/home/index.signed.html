@@ -1,10 +1,175 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Meltube</title>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/index.signed.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" th:href="@{'/assets/styles/index.signed.css'}">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
 </head>
 <body>
-로그인 된 상태를 보여줄 페이지
+<nav id="nav">
+    <img th:src="@{/assets/images/_logo.png}" class="logo" alt="Meltube">
+    <ul class="menu">
+        <li class="title">마이뮤직</li>
+        <li class="item" rel="mymusic.register">음원 등록 신청</li>
+        <li class="item" rel="mymusic.register_history">음원 등록 신청 내역</li>
+    </ul>
+</nav>
+<main id="main">
+    <header class="header">
+
+    </header>
+    <div class="content" rel="mymusic.register">
+        <h3 class="subtitle">마이뮤직</h3>
+        <h2 class="title">음원 등록 신청</h2>
+        <form novalidate class="default-form">
+            <span class="text">음원을 등록하기 위해 아래 양식을 완성해 주세요. 음원은 관리자의 승인 후 등록되며 관리자의 승인까지는 수 일이 소요 될 수 있습니다. 또한 이미 등록되어 있는 음원이거나 사회 미풍양속을 저해한다고 판단되는 등 등록하기에 적절하지 않은 경우 등록이 거절될 수 있습니다</span>
+            <label class="--obj-label cover">
+                <span class="_text">커버 이미지</span>
+                <span class="row">
+                    <span class="preview-wrapper">
+                        <span class="text">커버 이미지를 선택해 주세요</span>
+                        <img class="image" alt="" src="" style="display: none">
+                    </span>
+                    <span class="input-wrapper">
+                        <input type="file" required accept="image/*" name="_cover" hidden>
+                        <span class="tip">* 커버 이미지의 확장자는 <code>gif</code>, <code>png</code>, <code>jpg</code>, <code>jpeg</code>,<code>webp</code> 등이여야 합니다  </span>
+                        <span class="tip">* 커버 이미지의 가로 및 세로 크기는 같아야 합니다</span>
+                        <span class="tip">* 커버 이미지의 파일 크기는 10Mb를 초과하지 않아야 합니다</span>
+                        <button class="--obj-button -color-primary" name="coverImageFind" type="button">커버 이미지 찾기</button>
+                    </span>
+                </span>
+            </label>
+            <label class="--obj-label youtube">
+                <span class="_text">유튜브 식별자</span>
+                <span class="row">
+                    <span class="input-wrapper">
+                        <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="11" minlength="11" name="youtubeId">
+                        <button class="--obj-button -color-light-gray" name="youtubeIdCheckButton" type="button">유튜브 식별자 확인</button>
+                    </span>
+                    <span class="iframe-wrapper">
+                        <span class="text">유튜브 식별자를 입력해주세요</span>
+                        <iframe class="iframe" style="display: none;"></iframe>
+                    </span>
+                </span>
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">아티스트</span>
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="artist" type="text">
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">앨범 이름</span>
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="album" type="text">
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">발매일</span>
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="releaseDate" type="date">
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">장르</span>
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="genre" type="text">
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">곡 이름</span>
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="name" type="text">
+            </label>
+            <label class="--obj-label -dark">
+                <span class="_text">가사</span>
+                <textarea class="_field --obj-field -dark" required maxlength="10000" minlength="0" name="lyrics"></textarea>
+            </label>
+        </form>
+    </div>
+    <div class="content" rel="mymusic.register_history">
+        <h3 class="subtitle">마이뮤직</h3>
+        <h2 class="title">음원 등록 신청 내역</h2>
+    </div>
+</main>
+<section id="player">
+    <div class="album-wrapper">
+        <img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" class="img" alt="">
+        <span class="title">APT.</span>
+        <span class="artist">로제 (ROSÉ), Bruno Mars</span>
+        <button class="like" name="like" type="button">
+            <img class="icon" alt="좋아요" th:src="@{/assets/images/index.signed/player.album.like-false.png}">
+        </button>
+        <button class="unlike" name="unlike" type="button">
+            <img class="icon" alt="좋아요 취소" th:src="@{/assets/images/index.signed/player.album.like-true.png}">
+        </button>
+    </div>
+    <div class="control-wrapper">
+        <div class="bar">
+            <div class="value"></div>
+        </div>
+        <div class="time">
+            <span class="current">00:17</span>
+            <span class="total">3:23</span>
+        </div>
+        <div class="button-container">
+
+            <button class="button toggleable -toggled" name="repeat" type="button">
+                <img th:src="@{/assets/images/index.signed/player.control.repeat.png}" class="icon" alt="반복 재생">
+            </button>
+            <button class="button toggleable" name="shuffle" type="button">
+                <img th:src="@{/assets/images/index.signed/player.control.shuffle.png}" class="icon" alt="무작위 재생">
+            </button>
+            <div class="ppn">
+                <button class="button" name="prev" type="button">
+                    <img th:src="@{/assets/images/index.signed/player.control.prev.png}" class="icon" alt="처음/이전">
+                </button>
+                <button class="button" name="play" type="button">
+                    <img th:src="@{/assets/images/index.signed/player.control.play.png}" class="icon" alt="재생">
+                </button>
+                <button class="button" name="pause" type="button" style="display: none">
+                    <img th:src="@{/assets/images/index.signed/player.control.pause.png}" class="icon" alt="일시정지">
+                </button>
+                <button class="button" name="next" type="button">
+                    <img th:src="@{/assets/images/index.signed/player.control.next.png}" class="icon" alt="다음 곡">
+                </button>
+            </div>
+
+            <div class="space"></div>
+            <button class="button toggleable" name="mute" type="button">
+                <img th:src="@{/assets/images/index.signed/player.control.mute.png}" class="icon" alt="음소거">
+            </button>
+        </div>
+    </div>
+    <ul class="list">
+        <li class="item -playing">
+            <label class="check-wrapper">
+                <input type="checkbox" class="input">
+                <span class="box"></span>
+            </label>
+            <span class="title">APT.</span>
+            <span class="artist">로제 (ROSÉ), Bruno Mar</span>
+        </li>
+        <li class="item">
+            <label class="check-wrapper">
+                <input type="checkbox" class="input">
+                <span class="box"></span>
+            </label>
+            <span class="title">Whiplash</span>
+            <span class="artist">aespa</span>
+        </li>
+        <li class="item">
+            <label class="check-wrapper">
+                <input type="checkbox" class="input">
+                <span class="box"></span>
+            </label>
+            <span class="title">POWER</span>
+            <span class="artist">G-DRAGON</span>
+        </li>
+        <li class="item">
+            <label class="check-wrapper">
+                <input type="checkbox" class="input">
+                <span class="box"></span>
+            </label>
+            <span class="title">UP (KARINA Solo)</span>
+            <span class="artist">aespa</span>
+        </li>
+    </ul>
+</section>
 </body>
 </html>
