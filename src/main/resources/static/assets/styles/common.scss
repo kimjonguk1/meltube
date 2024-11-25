@@ -281,6 +281,7 @@ ol, ul {
   transition-duration: 250ms;
   transition-property: background-color;
   transition-timing-function: ease;
+  white-space: nowrap;
 
   &.-color-primary {
     $background_color : #01cd3d;

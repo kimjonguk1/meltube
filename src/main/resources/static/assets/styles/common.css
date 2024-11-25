@@ -272,6 +272,7 @@ ol, ul {
   transition-duration: 250ms;
   transition-property: background-color;
   transition-timing-function: ease;
+  white-space: nowrap;
 }
 .--obj-button.-color-primary {
   background-color: #01cd3d;

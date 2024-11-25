@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{'/assets/styles/common.css'}">
     <link rel="stylesheet" th:href="@{'/assets/styles/index.signed.css'}">
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <script src="https://kit.fontawesome.com/8bb132eaf4.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav id="nav">
@@ -27,6 +28,36 @@
         <h2 class="title">음원 등록 신청</h2>
         <form novalidate class="default-form">
             <span class="text">음원을 등록하기 위해 아래 양식을 완성해 주세요. 음원은 관리자의 승인 후 등록되며 관리자의 승인까지는 수 일이 소요 될 수 있습니다. 또한 이미 등록되어 있는 음원이거나 사회 미풍양속을 저해한다고 판단되는 등 등록하기에 적절하지 않은 경우 등록이 거절될 수 있습니다</span>
+            <span class="text">아래 도구를 통해 멜론의 음원 아이디를 입력하여 양식을 자동으로 완성 할 수 있습니다.</span>
+            <label class="--obj-label melon" data-id="melon">
+                <span class="_text">멜론 검색</span>
+                <span class="row">
+                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25" minlength="1" name="melonKeyword"
+                           placeholder="멜론 음원 검색">
+                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25" minlength="1" name="melonId"
+                    placeholder="멜론 음원 식별자">
+                    <button class="--obj-button -color-light-gray" name="melonCrawlButton" type="button">멜론 검색</button>
+                    <span class="result">
+                        <span class="message init">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            검색어를 입력해 주세요.
+                        </span>
+                        <span class="message loading" style="display: none;">
+                            <i class="icon fa-solid fa-spinner"></i>
+                        </span>
+                        <span class="message empty" style="display: none;">
+                            <i class="fa-solid fa-xmark"></i>
+                            표시할 검색 결과가 없습니다
+                        </span>
+                        <span class="message error" style="display: none;">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            검색 도중 오류가 발생했습니다
+                        </span>
+                    </span>
+                </span>
+                <span class="_warning">올바른 멜론 음원 식별자를 입력해 주세요</span>
+            </label>
+            <span class="text">멜론에서 검색되지 않는 음원이나, 직접 양식을 작성하고 싶은 경우 위 기능을 사용하지 않고 아래 양식을 직접 입력하셔도 좋습니다</span>
             <label class="--obj-label cover">
                 <span class="_text">커버 이미지</span>
                 <span class="row">
@@ -56,30 +87,38 @@
                     </span>
                 </span>
             </label>
-            <label class="--obj-label -dark">
+            <label class="--obj-label -dark" data-id="artist">
                 <span class="_text">아티스트</span>
                 <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="artist" type="text">
+                <span class="_warning">올바른 아티스트를 입력해 주세요</span>
             </label>
-            <label class="--obj-label -dark">
+            <label class="--obj-label -dark" data-id="album">
                 <span class="_text">앨범 이름</span>
                 <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="album" type="text">
+                <span class="_warning">올바른 앨범 이름을 입력해 주세요</span>
             </label>
-            <label class="--obj-label -dark">
+            <label class="--obj-label -dark" data-id="releaseDate">
                 <span class="_text">발매일</span>
                 <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="releaseDate" type="date">
+                <span class="_warning">올바른 발매일을 입력해 주세요</span>
             </label>
-            <label class="--obj-label -dark">
+            <label class="--obj-label -dark" data-id="genre">
                 <span class="_text">장르</span>
                 <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="genre" type="text">
+                <span class="_warning">올바른 장르를 입력해 주세요</span>
             </label>
-            <label class="--obj-label -dark">
+            <label class="--obj-label -dark" data-id="name">
                 <span class="_text">곡 이름</span>
                 <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="name" type="text">
+                <span class="_warning">올바른 곡 이름을 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark">
                 <span class="_text">가사</span>
                 <textarea class="_field --obj-field -dark" required maxlength="10000" minlength="0" name="lyrics"></textarea>
             </label>
+            <div class="button-container">
+                <button class="--obj-button -color-primary" type="submit">음원 등록 신청</button>
+            </div>
         </form>
     </div>
     <div class="content" rel="mymusic.register_history">
