@@ -294,6 +294,30 @@ ol, ul {
 .--obj-button.-color-light-gray:active {
   background-color: rgb(134.5, 134.5, 134.5);
 }
+.--obj-button.-color-red {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+.--obj-button.-color-red:hover {
+  background-color: rgb(228.2054794521, 55.1575342466, 37.2945205479);
+}
+.--obj-button.-color-red:active {
+  background-color: rgb(213.698630137, 43.8356164384, 26.301369863);
+}
+.--obj-button.-color-blue {
+  background-color: #3498db;
+  color: #ffffff;
+}
+.--obj-button.-color-blue:hover {
+  background-color: rgb(36.9790794979, 139.6987447699, 208.5209205021);
+}
+.--obj-button.-color-blue:active {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+.--obj-button.-size-small {
+  font-size: 0.75rem;
+  padding: 0.425rem;
+}
 
 .--obj-check-label {
   align-items: center;
@@ -332,6 +356,46 @@ ol, ul {
 }
 .--obj-check-label > ._text {
   text-align: justify;
+}
+
+.--obj-table {
+  border-spacing: 0;
+}
+.--obj-table .-no-padding {
+  padding: 0 !important;
+}
+.--obj-table .-spacer {
+  width: 100% !important;
+}
+.--obj-table .-text-align-center {
+  text-align: center;
+}
+.--obj-table th {
+  font: inherit;
+  white-space: nowrap;
+  padding: 0.5rem;
+}
+.--obj-table td {
+  white-space: nowrap;
+  padding: 0.425rem 1rem;
+}
+.--obj-table.-dark > thead > tr > th {
+  background-color: #1c1d1e;
+}
+.--obj-table.-dark > thead > tr > th:not(:last-of-type) {
+  border-right: 0.0625rem solid rgb(40.3103448276, 41.75, 43.1896551724);
+}
+.--obj-table.-dark > tbody > tr:nth-child(odd) > * {
+  background-color: #222324;
+}
+.--obj-table.-dark > tbody > tr:nth-child(odd) > *:not(:last-child) {
+  border-right: 0.0625rem solid rgb(40.1928571429, 41.375, 42.5571428571);
+}
+.--obj-table.-dark > tbody > tr:nth-child(even) > * {
+  background-color: rgb(31.5228571429, 32.45, 33.3771428571);
+}
+.--obj-table.-dark > tbody > tr:nth-child(even) > *:not(:last-child) {
+  border-right: 0.0625rem solid rgb(37.7157142857, 38.825, 39.9342857143);
 }
 
 /*# sourceMappingURL=common.css.map */

@@ -18,6 +18,10 @@
         <li class="item" rel="mymusic.register">음원 등록 신청</li>
         <li class="item" rel="mymusic.register_history">음원 등록 신청 내역</li>
     </ul>
+    <ul class="menu" th:if="${session.user.isAdmin()}">
+        <li class="title">관리자</li>
+        <li class="item" rel="admin.music">음원 관리</li>
+    </ul>
 </nav>
 <main id="main">
     <header class="header">
@@ -124,6 +128,129 @@
     <div class="content" rel="mymusic.register_history">
         <h3 class="subtitle">마이뮤직</h3>
         <h2 class="title">음원 등록 신청 내역</h2>
+        <div class="button-container">
+            <button class="--obj-button -color-light-gray" name="selectAll" type="button">전체 선택</button>
+            <button class="--obj-button -color-light-gray" name="unselectAll" type="button">전체 선택 해제</button>
+            <span class="-spring"></span>
+            <button class="--obj-button -color-red" name="withdraw" type="button">선택신청 취소</button>
+            <button class="--obj-button -color-blue" name="refresh" type="button">새로 고침</button>
+        </div>
+        <table class="--obj-table -dark">
+            <thead>
+            <tr>
+                <th><!-- 체크 --></th>
+                <th>번호</th>
+                <th><!-- 커버 --></th>
+                <th>아티스트</th>
+                <th>앨범</th>
+                <th>발매일</th>
+                <th>장르</th>
+                <th>곡명</th>
+                <th><i class="fa-brands fa-youtube"></i> 식별자</th>
+                <th>상태</th>
+                <th class="-spacer">동작</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <label class="--obj-check-label">
+                        <input type="checkbox" class="_input" name="check">
+                        <span class="_box"></span>
+                    </label>
+                </td>
+                <td class="-text-align-center">7</td>
+                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td>로제</td>
+                <td>Love Tune</td>
+                <td class="-text-align-center">2024-08-20</td>
+                <td>댄스</td>
+                <td>APT</td>
+                <td>tE68viosjfjk</td>
+                <td>승인 대기중</td>
+                <td>
+                    <button class="--obj-button -color-red -size-small" name="withdraw" type="button">신청 취소</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="--obj-check-label">
+                        <input type="checkbox" class="_input" name="check">
+                        <span class="_box"></span>
+                    </label>
+                </td>
+                <td class="-text-align-center">7</td>
+                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td>로제</td>
+                <td>Love Tune</td>
+                <td class="-text-align-center">2024-08-20</td>
+                <td>댄스</td>
+                <td>APT</td>
+                <td>tE68viosjfjk</td>
+                <td>승인 대기중</td>
+                <td>
+                    <button class="--obj-button -color-red -size-small" name="withdraw" type="button">신청 취소</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="content -visible" rel="admin.music" th:if="${session.user.isAdmin() == true}">
+        <h3 class="subtitle">관리자</h3>
+        <h2 class="title">음원 관리</h2>
+        <div class="button-container">
+            <button class="--obj-button -color-light-gray" name="selectAll" type="button">전체 선택</button>
+            <button class="--obj-button -color-light-gray" name="unselectAll" type="button">전체 선택 해제</button>
+            <span class="-spring"></span>
+            <button class="--obj-button -color-primary" name="allow" type="button">선택 승인</button>
+            <button class="--obj-button -color-red" name="deny" type="button">선택 거절</button>
+            <button class="--obj-button -color-red" name="delete" type="button">선택 삭제</button>
+            <button class="--obj-button -color-blue" name="refresh" type="button">새로 고침</button>
+        </div>
+        <table class="--obj-table -dark">
+            <thead>
+            <tr>
+                <th><!-- 체크 --></th>
+                <th>번호</th>
+                <th>사용자</th>
+                <th><!-- 커버 --></th>
+                <th>아티스트</th>
+                <th>앨범</th>
+                <th>발매일</th>
+                <th>장르</th>
+                <th>곡명</th>
+                <th><i class="fa-brands fa-youtube"></i> 식별자</th>
+                <th>상태</th>
+                <th class="-spacer">동작</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <label class="--obj-check-label">
+                        <input type="checkbox" class="_input" name="check">
+                        <span class="_box"></span>
+                    </label>
+                </td>
+                <td class="-text-align-center">7</td>
+                <td>dkdkddk@naver.com</td>
+                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td>로제</td>
+                <td>Love Tune</td>
+                <td class="-text-align-center">2024-08-20</td>
+                <td>댄스</td>
+                <td>APT</td>
+                <td>tE68viosjfjk</td>
+                <td>승인 대기중</td>
+                <td>
+                    <button class="--obj-button -color-light-gray -size-small" name="detail" type="button">자세히</button>
+                    <button class="--obj-button -color-primary -size-small" name="allow" type="button">승인</button>
+                    <button class="--obj-button -color-red -size-small" name="deny" type="button">거절</button>
+                    <button class="--obj-button -color-red -size-small" name="delete" type="button">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </main>
 <section id="player">

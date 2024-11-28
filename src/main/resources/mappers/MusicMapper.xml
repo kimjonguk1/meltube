@@ -4,29 +4,122 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.jwkim.meltube.mappers.MusicMapper">
     <insert id="insertMusic" parameterType="dev.jwkim.meltube.entities.MusicEntity">
-        INSERT INTO `meltube`.musics (`user_email`, `artist`, `album`, `release_date`, `genre`, `name`, `lyrics`, `cover_data`, `cover_content_type`, `cover_file_name`, `youtube_id`, `status`, `created_at`, `updated_at`, `is_deleted`)
-        VALUES (#{userEmail},#{artist},#{album},#{releaseDate},#{genre},#{name},#{lyrics},#{coverData},#{coverContentType},#{coverFileName},#{youtubeId},#{status},#{createdAt},#{updatedAt},#{isDeleted})
+        INSERT INTO `meltube`.musics (`user_email`, `artist`, `album`, `release_date`, `genre`, `name`, `lyrics`,
+                                      `cover_data`, `cover_content_type`, `cover_file_name`, `youtube_id`, `status`,
+                                      `created_at`, `updated_at`, `is_deleted`)
+        VALUES (#{userEmail}, #{artist}, #{album}, #{releaseDate}, #{genre}, #{name}, #{lyrics}, #{coverData},
+                #{coverContentType}, #{coverFileName}, #{youtubeId}, #{status}, #{createdAt}, #{updatedAt},
+                #{isDeleted})
     </insert>
 
     <select id="selectMusicByYoutubeId" resultType="dev.jwkim.meltube.entities.MusicEntity">
-        SELECT `index`            AS 'index',
-               user_email         AS 'userEmail',
-               artist             AS 'artist',
-               album              AS 'album',
-               release_date       AS 'releaseDate',
-               genre              AS 'genre',
-               name               AS 'name',
-               lyrics             AS 'lyrics',
-               cover_data         AS 'coverData',
-               cover_content_type AS 'coverContentType',
-               cover_file_name    AS 'coverFileName',
-               youtube_id         AS 'youtubeId',
-               status             AS 'status',
-               created_at         AS 'createdAt',
-               updated_at         AS 'updatedAt',
-               is_deleted         AS 'isDeleted'
+        SELECT `index`      AS 'index',
+               user_email   AS 'userEmail',
+               artist       AS 'artist',
+               album        AS 'album',
+               release_date AS 'releaseDate',
+               genre        AS 'genre',
+               name         AS 'name',
+               lyrics       AS 'lyrics',
+               youtube_id   AS 'youtubeId',
+               status       AS 'status',
+               created_at   AS 'createdAt',
+               updated_at   AS 'updatedAt',
+               is_deleted   AS 'isDeleted'
         FROM meltube.musics
         WHERE youtube_id = #{youtubeId}
+        AND `is_deleted` = FALSE
         LIMIT 1
+    </select>
+    <select id="selectMusicsByUserEmail" resultType="dev.jwkim.meltube.entities.MusicEntity">
+        SELECT `index`      AS 'index',
+               user_email   AS 'userEmail',
+               artist       AS 'artist',
+               album        AS 'album',
+               release_date AS 'releaseDate',
+               genre        AS 'genre',
+               name         AS 'name',
+               lyrics       AS 'lyrics',
+               youtube_id   AS 'youtubeId',
+               status       AS 'status',
+               created_at   AS 'createdAt',
+               updated_at   AS 'updatedAt',
+               is_deleted   AS 'isDeleted'
+        FROM meltube.musics
+        WHERE user_email = #{userEmail}
+        AND is_deleted = FALSE
+        ORDER BY musics.`index` DESC
+    </select>
+    <select id="selectMusicByIndex" resultType="dev.jwkim.meltube.entities.MusicEntity">
+        SELECT `index` AS 'index',
+        user_email AS 'userEmail',
+        artist AS 'artist',
+        album AS 'album',
+        release_date AS 'releaseDate',
+        genre AS 'genre',
+        name AS 'name',
+        lyrics AS 'lyrics',
+        youtube_id AS 'youtubeId',
+        status AS 'status',
+        created_at AS 'createdAt',
+        updated_at AS 'updatedAt',
+        is_deleted AS 'isDeleted'
+
+        <if test="includeCover == true">
+            ,`cover_data` AS 'coverData',
+            `cover_content_type` AS 'coverContentType',
+            `cover_file_name` AS 'coverFileName'
+        </if>
+        FROM meltube.musics
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+
+    <update id="updateMusic">
+        UPDATE `meltube`.musics
+        SET `user_email` = #{music.userEmail},
+        `artist` = #{music.artist},
+        `album` = #{music.album},
+        `release_date` = #{music.releaseDate},
+        `genre` = #{music.genre},
+        `name` = #{music.name},
+        `lyrics` = #{music.lyrics},
+        <if test="includeCover == true">
+            `cover_data` = #{music.coverData},
+            `cover_content_type` = #{music.coverContentType},
+            `cover_file_name` = #{music.coverFileName},
+        </if>
+        `youtube_id` = #{music.youtubeId},
+        `status` = #{music.status},
+        `created_at` = #{music.createdAt},
+        `updated_at` = #{music.updatedAt},
+        `is_deleted` = #{music.isDeleted}
+        WHERE `index` = #{music.index}
+        LIMIT 1
+    </update>
+
+    <select id="selectMusics" resultType="dev.jwkim.meltube.entities.MusicEntity">
+        SELECT `index` AS 'index',
+        user_email AS 'userEmail',
+        artist AS 'artist',
+        album AS 'album',
+        release_date AS 'releaseDate',
+        genre AS 'genre',
+        name AS 'name',
+        lyrics AS 'lyrics',
+        youtube_id AS 'youtubeId',
+        status AS 'status',
+        created_at AS 'createdAt',
+        updated_at AS 'updatedAt',
+        is_deleted AS 'isDeleted'
+
+        <if test="includeCover == true">
+            ,`cover_data` AS 'coverData',
+            `cover_content_type` AS 'coverContentType',
+            `cover_file_name` AS 'coverFileName'
+        </if>
+        FROM meltube.musics
+        ORDER BY musics.`index` DESC
     </select>
 </mapper>

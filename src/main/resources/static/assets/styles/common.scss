@@ -310,6 +310,39 @@ ol, ul {
       background-color: darken($background_color, 10%);
     }
   }
+
+  &.-color-red {
+    $background_color : #e74c3c;
+    background-color: $background_color;
+    color: #ffffff;
+
+    &:hover {
+      background-color: darken($background_color, 5%);
+    }
+
+    &:active {
+      background-color: darken($background_color, 10%);
+    }
+  }
+
+  &.-color-blue {
+    $background_color : #3498db;
+    background-color: $background_color;
+    color: #ffffff;
+
+    &:hover {
+      background-color: darken($background_color, 5%);
+    }
+
+    &:active {
+      background-color: darken($background_color, 10%);
+    }
+  }
+
+  &.-size-small {
+    font-size: 0.75rem;
+    padding: 0.425rem;
+  }
 }
 
 .--obj-check-label {
@@ -343,4 +376,60 @@ ol, ul {
   > ._text {
     text-align: justify;
   }
+}
+
+.--obj-table {
+  border-spacing: 0;
+
+  .-no-padding {
+    padding: 0 !important;
+  }
+
+  .-spacer {
+    width: 100% !important;
+  }
+
+  .-text-align-center {
+    text-align: center;
+  }
+
+  th {
+    font: inherit;
+    white-space: nowrap;
+    padding: 0.5rem;
+  }
+
+  td {
+    white-space: nowrap;
+    padding: 0.425rem 1rem;
+  }
+
+  &.-dark {
+    > thead > tr > th {
+      $background_color : #1c1d1e;
+      background-color: $background_color;
+
+      &:not(:last-of-type) {
+        border-right: 0.0625rem solid lighten($background_color, 5%);
+      }
+    }
+
+    > tbody > tr:nth-child(odd) > * {
+        $background-color: #222324;
+      background-color: $background-color;
+
+      &:not(:last-child) {
+        border-right: 0.0625rem solid lighten($background-color, 2.5%);
+      }
+      }
+
+    > tbody > tr:nth-child(even) > *{
+        $background-color: darken(#222324, 1%);
+        background-color: $background-color;
+
+      &:not(:last-child) {
+        border-right: 0.0625rem solid lighten($background-color, 2.5%);
+      }
+      }
+    }
 }

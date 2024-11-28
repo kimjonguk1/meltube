@@ -2,10 +2,12 @@ package dev.jwkim.meltube.services;
 
 import dev.jwkim.meltube.entities.MusicEntity;
 import dev.jwkim.meltube.entities.UserEntity;
+import dev.jwkim.meltube.exceptions.TransactionalException;
 import dev.jwkim.meltube.mappers.MusicMapper;
 import dev.jwkim.meltube.results.CommonResult;
 import dev.jwkim.meltube.results.Result;
 import dev.jwkim.meltube.results.music.AddMusicResult;
+import dev.jwkim.meltube.vos.ResultVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.HttpStatusException;
@@ -15,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -192,5 +195,51 @@ public class MusicService {
                 .build();
         HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         return response.statusCode() != 404;
+    }
+
+    public ResultVo<Result, MusicEntity[]> getMusicInquiriesByUser(UserEntity user) {
+        if(user == null || user.isSuspended() || user.getDeletedAt() != null) {
+            return ResultVo.<Result, MusicEntity[]>builder().result(CommonResult.FAILURE_UNSIGNED).build();
+        }
+        return ResultVo.<Result, MusicEntity[]>builder().result(CommonResult.SUCCESS).payload(this.musicMapper.selectMusicsByUserEmail(user.getEmail())).build();
+    }
+
+    public MusicEntity getMusicByIndex(Integer index, boolean includeCover) {
+        if(index == null || index < 1) {
+            return null;
+        }
+        return this.musicMapper.selectMusicByIndex(index, includeCover);
+
+    }
+
+    @Transactional
+    public Result withdrawInquiries(UserEntity user, int[] indexes) {
+        if(user == null || user.isSuspended() || user.getDeletedAt() != null) {
+            return CommonResult.FAILURE_UNSIGNED;
+        }
+        if(indexes == null || indexes.length == 0) {
+            return CommonResult.FAILURE;
+        }
+        for(int index : indexes) {
+            MusicEntity music = this.musicMapper.selectMusicByIndex(index, false);
+            if(music == null || music.isDeleted()) {
+                throw new TransactionalException();
+            }
+            if(!music.getUserEmail().equals(user.getEmail())) {
+                throw new TransactionalException();
+            }
+            if(!music.getStatus().equals(MusicEntity.Status.PENDING.name())) {
+                throw new TransactionalException();
+            }
+            music.setDeleted(true);
+            if(this.musicMapper.updateMusic(music, false) == 0) {
+                throw new TransactionalException();
+            }
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    public MusicEntity[] getAllMusics(boolean includeCover) {
+        return this.musicMapper.selectMusics(includeCover);
     }
 }
