@@ -46,6 +46,63 @@ class Dialog {
 
     /**
      *
+     * @param {string} title
+     * @param {string} content
+     * @param {function(HTMLElement)|undefined} onclick
+     */
+
+    static defaultOk(title, content, onclick = undefined) {
+        Dialog.show({
+            title: title,
+            content: content,
+            buttons: [{
+                text: '확인',
+                onclick: ($dialog) => {
+                    Dialog.hide($dialog);
+                    if(typeof onclick === 'function') {
+                        onclick($dialog);
+                    }
+                }
+            }]
+        })
+    }
+
+    /**
+     *
+     * @param {string} title
+     * @param {string} content
+     * @param {function(HTMLElement)|undefined} onYes
+     * @param {function(HTMLElement)|undefined} onNo
+     */
+
+    static defaultYesNo(title, content, onYes = undefined, onNo = undefined) {
+        Dialog.show({
+            title:title,
+            content:content,
+            buttons: [
+                {
+                    text: '네', onclick: ($dialog) => {
+                        Dialog.hide($dialog);
+                        if(typeof onYes == 'function') {
+                            onYes($dialog)
+                        }
+                    }
+                },
+                {
+                    text: '아니요', onclick: ($dialog) => {
+                        Dialog.hide($dialog);
+                        if(typeof onYes == 'function') {
+                            onNo($dialog)
+                        }
+                    }
+                }
+
+            ]
+        })
+    }
+
+    /**
+     *
      * @param {HTMLElement} $dialog
      */
     static hide($dialog) {

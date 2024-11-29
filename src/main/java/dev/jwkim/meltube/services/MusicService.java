@@ -239,7 +239,4 @@ public class MusicService {
         return CommonResult.SUCCESS;
     }
 
-    public MusicEntity[] getAllMusics(boolean includeCover) {
-        return this.musicMapper.selectMusics(includeCover);
-    }
 }

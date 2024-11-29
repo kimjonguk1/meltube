@@ -345,7 +345,18 @@ body {
   > .button-container {
     @include flex(row, stretch, flex-start, 0.375rem);
     margin-bottom: 0.5rem;
+
+    > .filter-form {
+      @include  flex(row, stretch, flex-start, 0.375rem);
+      margin-bottom: 0.5rem;
+
+      > .--obj-label > .--obj-field {
+        height: 100%;
+      }
+    }
   }
+
+
 
   > table > tbody > tr > td {
     > .cover {
