@@ -1,6 +1,7 @@
 package dev.jwkim.meltube.controllers;
 
 import dev.jwkim.meltube.entities.UserEntity;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,14 @@ public class HomeController {
         } else {
             mav.setViewName("home/index.signed");
         }
+        return mav;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView getLogout(HttpSession session) {
+        session.setAttribute("user", null);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/");
         return mav;
     }
 }

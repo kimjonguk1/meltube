@@ -275,6 +275,7 @@ ol, ul {
 }
 
 .--obj-button {
+
   cursor: pointer;
   padding: 0.425rem 0.5rem;
   user-select: none;
@@ -282,6 +283,33 @@ ol, ul {
   transition-property: background-color;
   transition-timing-function: ease;
   white-space: nowrap;
+
+  &.-size-small {
+    font-size: 0.75rem;
+    padding: 0.425rem;
+  }
+
+  &.-simple-candy {
+    $border_color: lighten(#222324, 5%);
+    $color : #bdbdbd;
+    border-color: $border_color;
+    border-style: solid;
+    border-width: 0.0625rem;
+    border-radius: 999rem;
+    color: $color;
+    padding: 0.5rem 0.875rem;
+
+    &:hover {
+      border-color: lighten($border_color, 2.5%);
+      color: lighten($color, 10%);
+    }
+
+    &:active {
+      border-color: lighten($border_color, 5%);
+      color: lighten($color, 20%);
+    }
+
+  }
 
   &.-color-primary {
     $background_color : #01cd3d;

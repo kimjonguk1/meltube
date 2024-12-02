@@ -14,7 +14,13 @@
 <nav id="nav">
     <img th:src="@{/assets/images/_logo.png}" class="logo" alt="Meltube">
     <ul class="menu">
+        <li class="title">홈</li>
+        <li class="item -selected" rel="home.search">검색</li>
+    </ul>
+    <ul class="menu">
         <li class="title">마이뮤직</li>
+        <li class="item" rel="mymusic.playlist">플레이리스트</li>
+        <li class="item" rel="mymusic.like">좋아요</li>
         <li class="item" rel="mymusic.register">음원 등록 신청</li>
         <li class="item" rel="mymusic.register_history">음원 등록 신청 내역</li>
     </ul>
@@ -25,8 +31,111 @@
 </nav>
 <main id="main">
     <header class="header">
-
+        <form class="search-form">
+            <label class="label">
+                <input required autocomplete="off" class="input" maxlength="50" minlength="1" name="keyword" spellcheck="false" type="text">
+            </label>
+            <button class="submit-button" type="submit">
+                <i class="icon fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+        <div class="-spring"></div>
+        <span class="nickname" th:text="${session.user.getNickname()}"></span>
+        <nav class="link-container">
+            <a class="link" th:href="@{/logout}">로그아웃</a>
+        </nav>
     </header>
+    <div class="content -visible" rel="home.search">
+        <h3 class="subtitle">홈</h3>
+        <h2 class="title">검색</h2>
+        <div class="init" style="display: none">
+            <i class="icon fa-solid fa-magnifying-glass"></i>
+            <span class="message">아티스트나 앨범, 곡으로 검색해 보세요.</span>
+            <span class="message">원하는 결과가 없을 경우 <a class="link" href="#">음원 등록 신청</a>을 통해 원하는 음원을 등록할 수 있습니다</span>
+        </div>
+        <div class="button-container">
+            <button class="--obj-button -simple-candy" name="selectAll" type="button">
+                <i class="_icon fa-regular fa-square-check"></i>
+                <span class="_text">전체 선택</span>
+            </button>
+            <button class="--obj-button -simple-candy" name="unselectAll" type="button"><i
+                    class="_icon fa-regular fa-square-check"></i>
+                <span class="_text">전체 선택 해제</span></button>
+            <div class="spring"></div>
+            <button class="--obj-button -simple-candy" name="addToPlaylist" type="button"><i
+                    class="_icon fa-regular fa-square-check"></i>
+                <span class="_text">플레이리스트에 추가</span></button>
+            <button class="--obj-button -simple-candy" name="addToCurrentPlaylist" type="button"><i
+                    class="_icon fa-regular fa-square-check"></i>
+                <span class="_text">현재 재생목록에 추가</span></button>
+        </div>
+        <table class="result --obj-table">
+            <thead>
+            <tr>
+                <th><!-- 체크 --></th>
+                <th>곡명</th>
+                <th>아티스트</th>
+                <th>앨범</th>
+                <th>좋아요</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="empty">
+                <td colspan="5">
+                    <span class="message">검색어 <span class="keyword">???</span>에 대한 검색 결과가 없습니다</span>
+                    <span class="message">보다 단순한 다른 단어를 검색해 보거나 <a class="link" href="#">음원 등록 신청</a>을 통해 음원을 직접 등록해 보세요.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="-no-padding">
+                    <label class="--obj-check-label -dark">
+                        <input type="checkbox" class="_input" name="check">
+                        <span class="_box"></span>
+                    </label>
+                </td>
+                <td>
+                    <span class="name-wrapper">
+                        <img src="/music/cover?index=1" alt="" class="cover">
+                        <span class="name">해야 (HEYA)</span>
+                    </span>
+                </td>
+                <td>IVE 아이브</td>
+                <td>IVE</td>
+                <td>
+                    <span class="like-wrapper -liked">
+                        <i class="icon fa-solid fa-heart"></i>
+                        <span class="count">5,136</span>
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="-no-padding">
+                    <label class="--obj-check-label -dark">
+                        <input type="checkbox" class="_input" name="check">
+                        <span class="_box"></span>
+                    </label>
+                </td>
+                <td>
+                    <span class="name-wrapper">
+                        <img src="/music/cover?index=1" alt="" class="cover">
+                        <span class="name">해야 (HEYA)</span>
+                    </span>
+                </td>
+                <td>IVE 아이브</td>
+                <td>IVE</td>
+                <td>
+                    <span class="like-wrapper">
+                        <i class="icon fa-regular fa-heart"></i>
+                        <span class="count">5,136</span>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="content" rel="mymusic.playlist"></div>
+    <div class="content" rel="mymusic.like"></div>
     <div class="content" rel="mymusic.register">
         <h3 class="subtitle">마이뮤직</h3>
         <h2 class="title">음원 등록 신청</h2>
@@ -36,10 +145,12 @@
             <label class="--obj-label melon" data-id="melon">
                 <span class="_text">멜론 검색</span>
                 <span class="row">
-                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25" minlength="1" name="melonKeyword"
+                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25"
+                           minlength="1" name="melonKeyword"
                            placeholder="멜론 음원 검색">
-                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25" minlength="1" name="melonId"
-                    placeholder="멜론 음원 식별자">
+                    <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="25"
+                           minlength="1" name="melonId"
+                           placeholder="멜론 음원 식별자">
                     <button class="--obj-button -color-light-gray" name="melonCrawlButton" type="button">멜론 검색</button>
                     <span class="result">
                         <span class="message init">
@@ -74,7 +185,8 @@
                         <span class="tip">* 커버 이미지의 확장자는 <code>gif</code>, <code>png</code>, <code>jpg</code>, <code>jpeg</code>,<code>webp</code> 등이여야 합니다  </span>
                         <span class="tip">* 커버 이미지의 가로 및 세로 크기는 같아야 합니다</span>
                         <span class="tip">* 커버 이미지의 파일 크기는 10Mb를 초과하지 않아야 합니다</span>
-                        <button class="--obj-button -color-primary" name="coverImageFind" type="button">커버 이미지 찾기</button>
+                        <button class="--obj-button -color-primary" name="coverImageFind"
+                                type="button">커버 이미지 찾기</button>
                     </span>
                 </span>
             </label>
@@ -82,7 +194,8 @@
                 <span class="_text">유튜브 식별자</span>
                 <span class="row">
                     <span class="input-wrapper">
-                        <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="11" minlength="11" name="youtubeId">
+                        <input type="text" required autocomplete="off" class="_field --obj-field -dark" maxlength="11"
+                               minlength="11" name="youtubeId">
                         <button class="--obj-button -color-light-gray" name="youtubeIdCheckButton" type="button">유튜브 식별자 확인</button>
                     </span>
                     <span class="iframe-wrapper">
@@ -93,32 +206,38 @@
             </label>
             <label class="--obj-label -dark" data-id="artist">
                 <span class="_text">아티스트</span>
-                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="artist" type="text">
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1"
+                       name="artist" type="text">
                 <span class="_warning">올바른 아티스트를 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark" data-id="album">
                 <span class="_text">앨범 이름</span>
-                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="album" type="text">
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1"
+                       name="album" type="text">
                 <span class="_warning">올바른 앨범 이름을 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark" data-id="releaseDate">
                 <span class="_text">발매일</span>
-                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="releaseDate" type="date">
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1"
+                       name="releaseDate" type="date">
                 <span class="_warning">올바른 발매일을 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark" data-id="genre">
                 <span class="_text">장르</span>
-                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="genre" type="text">
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1"
+                       name="genre" type="text">
                 <span class="_warning">올바른 장르를 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark" data-id="name">
                 <span class="_text">곡 이름</span>
-                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1" name="name" type="text">
+                <input autocomplete="off" class="_field --obj-field -dark" required maxlength="50" minlength="1"
+                       name="name" type="text">
                 <span class="_warning">올바른 곡 이름을 입력해 주세요</span>
             </label>
             <label class="--obj-label -dark">
                 <span class="_text">가사</span>
-                <textarea class="_field --obj-field -dark" required maxlength="10000" minlength="0" name="lyrics"></textarea>
+                <textarea class="_field --obj-field -dark" required maxlength="10000" minlength="0"
+                          name="lyrics"></textarea>
             </label>
             <div class="button-container">
                 <button class="--obj-button -color-primary" type="submit">음원 등록 신청</button>
@@ -160,7 +279,9 @@
                     </label>
                 </td>
                 <td class="-text-align-center">7</td>
-                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td class="-no-padding"><img
+                        src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize"
+                        alt="" class="cover"></td>
                 <td>로제</td>
                 <td>Love Tune</td>
                 <td class="-text-align-center">2024-08-20</td>
@@ -180,7 +301,9 @@
                     </label>
                 </td>
                 <td class="-text-align-center">7</td>
-                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td class="-no-padding"><img
+                        src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize"
+                        alt="" class="cover"></td>
                 <td>로제</td>
                 <td>Love Tune</td>
                 <td class="-text-align-center">2024-08-20</td>
@@ -252,7 +375,9 @@
                 </td>
                 <td class="-text-align-center">7</td>
                 <td>dkdkddk@naver.com</td>
-                <td class="-no-padding"><img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" alt="" class="cover"></td>
+                <td class="-no-padding"><img
+                        src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize"
+                        alt="" class="cover"></td>
                 <td>로제</td>
                 <td>Love Tune</td>
                 <td class="-text-align-center">2024-08-20</td>
@@ -273,7 +398,8 @@
 </main>
 <section id="player">
     <div class="album-wrapper">
-        <img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize" class="img" alt="">
+        <img src="https://cdnimg.melon.co.kr/cm2/album/images/116/19/809/11619809_20241018103507_500.jpg/melon/resize/120/quality/80/optimize"
+             class="img" alt="">
         <span class="title">APT.</span>
         <span class="artist">로제 (ROSÉ), Bruno Mars</span>
         <button class="like" name="like" type="button">

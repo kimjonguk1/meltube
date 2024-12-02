@@ -274,6 +274,26 @@ ol, ul {
   transition-timing-function: ease;
   white-space: nowrap;
 }
+.--obj-button.-size-small {
+  font-size: 0.75rem;
+  padding: 0.425rem;
+}
+.--obj-button.-simple-candy {
+  border-color: rgb(46.3857142857, 47.75, 49.1142857143);
+  border-style: solid;
+  border-width: 0.0625rem;
+  border-radius: 999rem;
+  color: #bdbdbd;
+  padding: 0.5rem 0.875rem;
+}
+.--obj-button.-simple-candy:hover {
+  border-color: rgb(52.5785714286, 54.125, 55.6714285714);
+  color: rgb(214.5, 214.5, 214.5);
+}
+.--obj-button.-simple-candy:active {
+  border-color: rgb(58.7714285714, 60.5, 62.2285714286);
+  color: #f0f0f0;
+}
 .--obj-button.-color-primary {
   background-color: #01cd3d;
   color: #ffffff;
